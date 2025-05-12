@@ -196,7 +196,7 @@ class ImageCombinerApp:
         
         # 内部框架用于放置图片
         inner_frame = tk.Frame(canvas)
-        canvas.create_window((0, 0), window=inner_frame, anchor=tk.NW)
+        canvas.create_window((0, 0), window=inner_frame, anchor=tk.NW)  
         
         # 加载并显示图片
         max_width = 400
@@ -521,8 +521,8 @@ class ImageCombinerApp:
 - 大图片会自动压缩处理
 - 批量模式下可以一次处理多组图片
 - 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:This work by 宁幻雪 is licensed under CC BY-NC 4.0 
+- 联系方式:https://space.bilibili.com/556216088  
+- 开源协议:Apache-2.0 License                    
 
 - 备注:无聊开发的应用，如有问题请联系作者
 """
