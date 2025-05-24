@@ -48,7 +48,15 @@ class ToolLauncher:
         
         for category, tools in self.tools.items():
             for tool_name, file_name in tools.items():
-                tool_path = os.path.join(os.path.dirname(__file__), file_name)
+                # 特殊处理不同工具类型的路径
+                if category == 'PDF工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+                elif category == '图片工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+                elif category == '音频工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+                else:
+                    tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 if not os.path.exists(tool_path):
                     missing_tools.append(f"{category} - {tool_name} ({file_name})")
         
@@ -65,12 +73,15 @@ class ToolLauncher:
         refresh_button = ttk.Button(top_frame, text="刷新", command=self.refresh_tools)
         refresh_button.pack(side="left", padx=5)
         
-        # 添加帮助和关于按钮
+        # 添加帮助、关于和更新日志按钮
         help_button = ttk.Button(top_frame, text="帮助", command=self.show_help)
         help_button.pack(side="right", padx=5)
         
         about_button = ttk.Button(top_frame, text="关于", command=self.show_about)
         about_button.pack(side="right", padx=5)
+        
+        changelog_button = ttk.Button(top_frame, text="更新日志", command=self.show_changelog)
+        changelog_button.pack(side="right", padx=5)
         
         # 创建工具列表框架
         frame = ttk.LabelFrame(self.root, text="可用工具", padding="10")
@@ -84,9 +95,17 @@ class ToolLauncher:
             # 添加工具按钮
             for tool_name, file_name in tools.items():
                 # 检查工具是否存在
-                tool_path = os.path.join(os.path.dirname(__file__), file_name)
+                # 特殊处理不同工具类型的路径
+                if category == 'PDF工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+                elif category == '图片工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+                elif category == '音频工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+                else:
+                    tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 button = ttk.Button(frame, text=tool_name, width=30,
-                                  command=lambda f=file_name: self.run_tool(f))
+                                  command=lambda f=file_name, c=category: self.run_tool(f, c))
                 
                 # 如果工具不存在，禁用按钮
                 if not os.path.exists(tool_path):
@@ -132,9 +151,15 @@ class ToolLauncher:
             for tool_name, file_name in tools.items():
                 total_tools += 1
                 # 检查工具是否存在
-                tool_path = os.path.join(os.path.dirname(__file__), file_name)
+                # 特殊处理不同工具类型的路径
+                if category == 'PDF工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+                elif category == '图片工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+                else:
+                    tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 button = ttk.Button(frame, text=tool_name, width=30,
-                                  command=lambda f=file_name: self.run_tool(f))
+                                  command=lambda f=file_name, c=category: self.run_tool(f, c))
                 
                 # 如果工具不存在，禁用按钮
                 if not os.path.exists(tool_path):
@@ -173,11 +198,18 @@ class ToolLauncher:
         widget.bind('<Enter>', enter)
         widget.bind('<Leave>', leave)
         
-    def run_tool(self, tool_name):
+    def run_tool(self, tool_name, category=None):
         """运行指定的工具"""
         try:
             # 获取工具的完整路径
-            tool_path = os.path.join(os.path.dirname(__file__), tool_name)
+            if category == 'PDF工具':
+                tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', tool_name)
+            elif category == '图片工具':
+                tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', tool_name)
+            elif category == '音频工具':
+                tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', tool_name)
+            else:
+                tool_path = os.path.join(os.path.dirname(__file__), tool_name)
             
             # 检查文件是否存在
             if not os.path.exists(tool_path):
@@ -239,6 +271,39 @@ class ToolLauncher:
         close_button = ttk.Button(about_window, text="关闭", command=about_window.destroy)
         close_button.pack(pady=10)
         
+    def show_changelog(self):
+        """显示更新日志"""
+        changelog_text = """
+三垣工具启动器 更新日志
+
+V1.0.0 (2025-5-24)
+- 初始版本发布
+- 包含PDF工具、图片工具和音频工具启动功能
+- 实现工具完整性检查
+- 添加帮助和关于页面
+        """
+        
+        # 创建更新日志窗口
+        changelog_window = tk.Toplevel(self.root)
+        changelog_window.title("更新日志")
+        changelog_window.geometry("500x400")
+        changelog_window.resizable(True, True)
+        
+        # 添加更新日志文本
+        text_widget = tk.Text(changelog_window, wrap="word", padx=10, pady=10)
+        text_widget.pack(fill="both", expand=True)
+        text_widget.insert("1.0", changelog_text)
+        text_widget.config(state="disabled")  # 设置为只读
+        
+        # 添加滚动条
+        scrollbar = ttk.Scrollbar(text_widget, command=text_widget.yview)
+        scrollbar.pack(side="right", fill="y")
+        text_widget.config(yscrollcommand=scrollbar.set)
+        
+        # 添加关闭按钮
+        close_button = ttk.Button(changelog_window, text="关闭", command=changelog_window.destroy)
+        close_button.pack(pady=10)
+    
     def show_help(self):
         """显示帮助信息"""
         help_text = """
