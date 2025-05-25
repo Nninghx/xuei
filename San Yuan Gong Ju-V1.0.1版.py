@@ -156,6 +156,8 @@ class ToolLauncher:
                     tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
                 elif category == '图片工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+                elif category == '音频工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
                 else:
                     tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 button = ttk.Button(frame, text=tool_name, width=30,
@@ -281,6 +283,9 @@ V1.0.0 (2025-5-24)
 - 包含PDF工具、图片工具和音频工具启动功能
 - 实现工具完整性检查
 - 添加帮助和关于页面
+V1.0.1 (2025-5-25)
+- 修复了音频工具刷新后无法使用的问题
+V
         """
         
         # 创建更新日志窗口
