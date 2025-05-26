@@ -82,8 +82,8 @@ class PDFSplitterApp:
     def show_changelog(self):
         changelog = """PDF拆分工具 - 更新日志
 版本 Alpha1.0.0(2025-05-18)
-- 1.支持按页数拆分PDF
-- 2.支持按范围拆分PDF
+- 1.支持按页数拆分PDF 
+- 2.支持按范围拆分PDF   
 - 3.添加图形用户界面
 - 4.含有帮助文档
 版本 Alpha1.0.0(2025-05-21)
