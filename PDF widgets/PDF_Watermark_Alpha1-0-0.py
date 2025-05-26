@@ -9,7 +9,7 @@ import io
 class PDFWatermarkApp:
     def __init__(self, master):
         self.master = master
-        self.master.title("PDF加水印工具 优化版")
+        self.master.title("PDF加水印工具Alpha1.0.0")
         
         # 主框架
         self.main_frame = ttk.Frame(self.master)

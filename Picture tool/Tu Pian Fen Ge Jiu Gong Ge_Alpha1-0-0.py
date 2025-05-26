@@ -6,7 +6,7 @@ from tkinter import filedialog, messagebox, ttk
 class ImageSplitterApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("图片九宫格分割工具")
+        self.root.title("图片九宫格分割工具Alpha1.0.0")
         
         # 输入图片
         tk.Label(root, text="输入图片:").grid(row=0, column=0, padx=5, pady=5)
@@ -35,7 +35,6 @@ class ImageSplitterApp:
 2. 点击"浏览..."按钮选择输出目录
 3. 点击"开始分割"按钮进行分割
 4. 分割完成后，将在输出目录下创建一个以图片名命名的文件夹
-5. 所有分割图片将保存在该文件夹中，命名为[原文件名]_tile_*.png
 
 提示:
 - 作者:叁垣伍瑞肆凶廿捌宿宿
