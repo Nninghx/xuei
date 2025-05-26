@@ -61,9 +61,11 @@ class PDFMergerApp:
         self.action_frame.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
         self.action_frame.grid_columnconfigure(0, weight=1)
         self.action_frame.grid_columnconfigure(1, weight=1)
+        self.action_frame.grid_columnconfigure(2, weight=1)
         
         tk.Button(self.action_frame, text="帮助", command=self.show_help).grid(row=0, column=0, sticky="ew", padx=5)
-        tk.Button(self.action_frame, text="合并PDF", command=self.merge_pdfs).grid(row=0, column=1, sticky="ew", padx=5)
+        tk.Button(self.action_frame, text="更新日志", command=self.show_changelog).grid(row=0, column=1, sticky="ew", padx=5)
+        tk.Button(self.action_frame, text="合并PDF", command=self.merge_pdfs).grid(row=0, column=2, sticky="ew", padx=5)
     
     def add_file(self):
         files = filedialog.askopenfilenames(
@@ -172,6 +174,24 @@ class PDFMergerApp:
         self.selected_pages[file] = []
         self.show_preview()
     
+    def show_changelog(self):
+        changelog = """PDF页面合并工具 - 更新日志
+版本 Alpha1.0.0 (2025-05-18)
+- 1.初始版本发布
+- 2.基本PDF合并功能
+- 3.页面预览与选择功能
+
+版本 Alpha1.0.1 (2025-05-20)
+- 1.进行了一些代码优化
+
+版本 Alpha1.0.2 (2025-05-26)
+- 1.- 添加更新日志
+
+
+
+"""
+        messagebox.showinfo("更新日志", changelog)
+
     def show_help(self):
         help_text = """PDF页面合并工具 - 使用指南
 

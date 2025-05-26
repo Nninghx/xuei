@@ -6,7 +6,7 @@ import os
 class AudioExtractorApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("视频提取音频工具Alpha1.0.1")
+        self.root.title("视频提取音频工具Alpha1.0.2")
         self.root.geometry("480x200")
         self.root.resizable(False, False)
 
@@ -25,8 +25,12 @@ class AudioExtractorApp:
         # 提取按钮
         tk.Button(root, text="开始提取", command=self.extract_audio).grid(row=2, column=1, pady=10)
 
-        # 帮助按钮
-        tk.Button(root, text="帮助", command=self.show_help).grid(row=3, column=1, pady=5)
+        # 帮助和更新日志按钮
+        button_frame = tk.Frame(root)
+        button_frame.grid(row=3, column=1, pady=5)
+        
+        tk.Button(button_frame, text="帮助", command=self.show_help).pack(side="left", padx=5)
+        tk.Button(button_frame, text="更新日志", command=self.show_changelog).pack(side="left", padx=5)
 
         # 状态显示
         self.status_label = tk.Label(root, text="", fg="green")
@@ -48,6 +52,27 @@ class AudioExtractorApp:
         )
         if file_path:
             self.audio_path.set(file_path)
+
+    def show_changelog(self):
+        changelog_text = """视频提取音频工具更新日志
+
+版本: Alpha1.0.0 (2025-05-22)
+- 1.初始版本发布
+- 2.实现基本视频提取音频功能
+- 3.添加帮助文档
+- 4.支持MP4/AVI/MKV/MOV输入格式
+- 5.支持MP3/WAV输出格式
+
+版本: Alpha1.0.1 (2025-05-23)
+- 1.界面尺寸优化为480x200
+- 2.新增WAV格式支持
+- 3.错误处理优化
+- 4.修复在处理大体积视频时会出现内存溢出或中断报错
+
+版本: Alpha1.0.2 (2025-05-26)
+- 1.添加更新日志
+"""
+        messagebox.showinfo("更新日志", changelog_text)
 
     def show_help(self):
         help_text = """视频提取音频工具使用说明:
