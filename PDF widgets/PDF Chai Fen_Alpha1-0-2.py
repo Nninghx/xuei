@@ -80,6 +80,7 @@ class PDFSplitterApp:
             self.output_dir = dir
             self.output_label.config(text=dir)
     def show_changelog(self):
+        # 更新日志内容
         changelog = """PDF拆分工具 - 更新日志
 版本 Alpha1.0.0(2025-05-18)
 - 1.支持按页数拆分PDF 
@@ -93,6 +94,7 @@ class PDFSplitterApp:
 版本 Alpha1.0.2(2025-05-26)
 - 1.添加更新日志
 """
+        # 显示更新日志
         messagebox.showinfo("更新日志", changelog)
     def show_help(self):
         help_text = """PDF拆分工具 - 使用指南

@@ -7,25 +7,28 @@ import sys
 class ToolLauncher:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("工具启动器-V1.0.1")
-        self.root.geometry("400x500")
+        self.root.title("工具启动器-V1.0.3")
+        self.root.geometry("400x510")
         
         # 工具列表
         self.tools = {
             'PDF工具': {
-                'PDF拆分': 'PDF Chai Fen Alpha1.0.2.py',
-                'PDF合并': 'PDF He Bing Alpha1.0.1.py',
-                'PDF转Word': 'PDF_to_Word_Alpha1.0.0.py',
-                'PDF加水印': 'PDF_Watermark_Alpha1.0.0.py'
+                'PDF拆分': 'PDF Chai Fen_Alpha1-0-2.py',
+                'PDF合并': 'PDF He Bing_Alpha1-0-2.py',
+                'PDF转Word': 'PDF_to_Word_Alpha1-0-0.py',
+                'PDF加水印': 'PDF_Watermark_Alpha1-0-0.py'
             },
             '图片工具': {
-                '九宫格分割': 'Tu Pian Fen Ge Jiu Gong Ge-Alpha1.0.0.py',
-                '格式转换': 'Tu Pian Ge Shi Zhuan Huan-Alpha1.0.0.py',
-                'ICO转换': 'Tu Pian Zhuan ico-Alpha1.0.0.py',
-                '图片合成': 'Tu_Pian_He_Cheng_Alpha.py'
+                '九宫格分割': 'Tu Pian Fen Ge Jiu Gong Ge_Alpha1-0-0.py',
+                '格式转换': 'Tu Pian Ge Shi Zhuan Huan_Alpha1-0-0.py',
+                'ICO转换': 'Tu Pian Zhuan ico_Alpha1-0-0.py',
+                '图片合成': 'Tu_Pian_He_Cheng_Alpha1-0-0.py'
             },
             '音频工具': {
-                '音频提取': 'Yin Pin Ti Qu-Alpha1.0.1.py'
+                '音频提取': 'Yin Pin Ti Qu_Alpha1-0-2.py'
+            },
+            '文件工具': {
+                '目录树生成器': 'generate_dir_tree.py',
             }
         }
         
@@ -246,7 +249,7 @@ class ToolLauncher:
         # 创建关于窗口
         about_window = tk.Toplevel(self.root)
         about_window.title("关于")
-        about_window.geometry("400x300")
+        about_window.geometry("400x200")
         about_window.resizable(False, False)
         
         # 添加图标标签（如果有的话）
@@ -277,7 +280,6 @@ class ToolLauncher:
         """显示更新日志"""
         changelog_text = """
 三垣工具启动器 更新日志
-
 V1.0.0 (2025-5-24)
 - 1.初始版本发布
 - 2.包含PDF工具、图片工具和音频工具启动功能
@@ -287,13 +289,16 @@ V1.0.1 (2025-5-25)
 - 1.修复了音频工具刷新后无法使用的问题
 V1.0.2 (2025-5-26)
 - 1.添加更新日志
-
+v1.0.3 (2025-5-27)
+- 1.修复V1.0.2版，调用工具名称错误的问题
+- 2.新增目录树生成器工具
+- 3.优化界面大小
         """
         
         # 创建更新日志窗口
         changelog_window = tk.Toplevel(self.root)
         changelog_window.title("更新日志")
-        changelog_window.geometry("500x400")
+        changelog_window.geometry("350x300")
         changelog_window.resizable(True, True)
         
         # 添加更新日志文本
@@ -341,10 +346,8 @@ V1.0.2 (2025-5-26)
    音频工具：
    - 音频提取：从视频文件中提取音频
 
-4. 注意事项
-   - 确保所有工具脚本与启动器在同一目录下
-   - 部分工具可能需要额外的依赖库
-   - 音频提取功能需要系统安装FFmpeg
+   文件工具：
+   - 目录树生成器：生成目录树结构
         """
         
         # 创建帮助窗口
