@@ -7,8 +7,34 @@ import sys
 class ToolLauncher:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("工具启动器-V1.0.3")
-        self.root.geometry("400x510")
+        self.root.title("工具启动器-V1.0.4")
+        self.root.geometry("440x500")
+        
+        # 分类折叠状态
+        self.category_states = {
+            'PDF工具': False,
+            '图片工具': False,
+            '音频工具': False,
+            '文件工具': False
+        }
+        
+        # 创建顶部按钮框架
+        self.top_frame = ttk.Frame(self.root)
+        self.top_frame.pack(fill="x", padx=10, pady=5)
+        
+        # 添加刷新按钮
+        refresh_button = ttk.Button(self.top_frame, text="刷新", command=self.refresh_tools)
+        refresh_button.pack(side="left", padx=5)
+        
+        # 添加帮助、关于和更新日志按钮
+        help_button = ttk.Button(self.top_frame, text="帮助", command=self.show_help)
+        help_button.pack(side="right", padx=5)
+        
+        about_button = ttk.Button(self.top_frame, text="关于", command=self.show_about)
+        about_button.pack(side="right", padx=5)
+        
+        changelog_button = ttk.Button(self.top_frame, text="更新日志", command=self.show_changelog)
+        changelog_button.pack(side="right", padx=5)
         
         # 工具列表
         self.tools = {
@@ -28,7 +54,7 @@ class ToolLauncher:
                 '音频提取': 'Yin Pin Ti Qu_Alpha1-0-2.py'
             },
             '文件工具': {
-                '目录树生成器': 'generate_dir_tree.py',
+                '目录树生成器': 'Mu Lu Shu Sheng Cheng Qi_Alpha1-0-0.py',
             }
         }
         
@@ -58,6 +84,8 @@ class ToolLauncher:
                     tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
                 elif category == '音频工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+                elif category == '文件工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
                 else:
                     tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 if not os.path.exists(tool_path):
@@ -68,34 +96,55 @@ class ToolLauncher:
             messagebox.showwarning("工具缺失", warning_message)
         
     def setup_ui(self):
-        # 创建顶部按钮框架
-        top_frame = ttk.Frame(self.root)
-        top_frame.pack(fill="x", padx=10, pady=5)
-        
-        # 添加刷新按钮
-        refresh_button = ttk.Button(top_frame, text="刷新", command=self.refresh_tools)
-        refresh_button.pack(side="left", padx=5)
-        
-        # 添加帮助、关于和更新日志按钮
-        help_button = ttk.Button(top_frame, text="帮助", command=self.show_help)
-        help_button.pack(side="right", padx=5)
-        
-        about_button = ttk.Button(top_frame, text="关于", command=self.show_about)
-        about_button.pack(side="right", padx=5)
-        
-        changelog_button = ttk.Button(top_frame, text="更新日志", command=self.show_changelog)
-        changelog_button.pack(side="right", padx=5)
-        
         # 创建工具列表框架
         frame = ttk.LabelFrame(self.root, text="可用工具", padding="10")
         frame.pack(fill="both", expand=True, padx=10, pady=5)
         
+        # 创建Canvas和滚动条
+        canvas = tk.Canvas(frame)
+        scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        
+        # 配置Canvas
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # 绑定鼠标滚轮事件
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+        
+        # 布局Canvas和滚动条
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y", padx=(0,1))
+        
         # 动态创建工具按钮
         for category, tools in self.tools.items():
-            # 添加分类标签
-            ttk.Label(frame, text=f"{category}：", font=("", 10, "bold")).pack(anchor="w", pady=(10,0))
+            # 创建分类标题框架
+            category_frame = ttk.Frame(scrollable_frame)
+            category_frame.pack(fill="x", pady=(10,0))
             
-            # 添加工具按钮
+            # 添加折叠/展开按钮
+            toggle_text = "▼" if self.category_states[category] else "▲"
+            toggle_btn = ttk.Button(category_frame, text=toggle_text, width=2,
+                                 command=lambda c=category: self.toggle_category(c))
+            toggle_btn.pack(side="left")
+            toggle_btn.category = category  # 标记按钮所属分类
+            
+            # 添加分类标签
+            ttk.Label(category_frame, text=f"{category}：", font=("", 10, "bold")).pack(side="left", anchor="w")
+            
+            # 添加工具按钮容器
+            tools_container = ttk.Frame(scrollable_frame)
+            if not self.category_states[category]:
+                tools_container.pack(fill="x")
             for tool_name, file_name in tools.items():
                 # 检查工具是否存在
                 # 特殊处理不同工具类型的路径
@@ -105,9 +154,11 @@ class ToolLauncher:
                     tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
                 elif category == '音频工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+                elif category == '文件工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
                 else:
                     tool_path = os.path.join(os.path.dirname(__file__), file_name)
-                button = ttk.Button(frame, text=tool_name, width=30,
+                button = ttk.Button(tools_container, text=tool_name, width=50,
                                   command=lambda f=file_name, c=category: self.run_tool(f, c))
                 
                 # 如果工具不存在，禁用按钮
@@ -124,56 +175,109 @@ class ToolLauncher:
         self.status_bar = ttk.Label(self.root, textvariable=self.status_var, relief="sunken")
         self.status_bar.pack(side="bottom", fill="x", padx=10, pady=5)
         
+    def check_tool_exists(self, category, file_name):
+        """检查工具文件是否存在"""
+        if category == 'PDF工具':
+            tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+        elif category == '图片工具':
+            tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+        elif category == '音频工具':
+            tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+        elif category == '文件工具':
+            tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+        else:
+            tool_path = os.path.join(os.path.dirname(__file__), file_name)
+        return os.path.exists(tool_path)
+
+    def get_tool_path(self, category, file_name):
+        """获取工具文件的完整路径"""
+        if category == 'PDF工具':
+            return os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+        elif category == '图片工具':
+            return os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
+        elif category == '音频工具':
+            return os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
+        elif category == '文件工具':
+            return os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+        else:
+            return os.path.join(os.path.dirname(__file__), file_name)
+
     def refresh_tools(self):
         """刷新工具状态并更新界面"""
         # 更新状态
         self.status_var.set("正在刷新工具列表...")
         self.root.update()
         
-        # 清除当前的工具列表框架
+        # 清除现有的工具列表框架
         for widget in self.root.winfo_children():
             if isinstance(widget, ttk.LabelFrame):
                 widget.destroy()
-                
-        # 重新检查工具
-        self.check_tools()
         
-        # 重新创建工具列表框架
+        # 创建新的工具列表框架
         frame = ttk.LabelFrame(self.root, text="可用工具", padding="10")
         frame.pack(fill="both", expand=True, padx=10, pady=5)
         
-        # 重新创建工具按钮
+        # 创建Canvas和滚动条
+        canvas = tk.Canvas(frame)
+        scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        
+        # 配置Canvas
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # 绑定鼠标滚轮事件
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+        
+        # 布局Canvas和滚动条
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y", padx=(0,5))
+        
+        # 动态创建工具按钮
         available_tools = 0
         total_tools = 0
         
         for category, tools in self.tools.items():
-            # 添加分类标签
-            ttk.Label(frame, text=f"{category}：", font=("", 10, "bold")).pack(anchor="w", pady=(10,0))
+            # 创建分类标题框架
+            category_frame = ttk.Frame(scrollable_frame)
+            category_frame.pack(fill="x", pady=(10,0))
             
-            # 添加工具按钮
+            # 添加折叠/展开按钮
+            toggle_text = "▼" if self.category_states[category] else "▲"
+            toggle_btn = ttk.Button(category_frame, text=toggle_text, width=2,
+                                 command=lambda c=category: self.toggle_category(c))
+            toggle_btn.pack(side="left")
+            toggle_btn.category = category  # 标记按钮所属分类
+            
+            # 添加分类标签
+            ttk.Label(category_frame, text=f"{category}：", font=("", 10, "bold")).pack(side="left", anchor="w")
+            
+            # 添加工具按钮容器
+            tools_container = ttk.Frame(scrollable_frame)
+            if not self.category_states[category]:
+                tools_container.pack(fill="x")
+            
             for tool_name, file_name in tools.items():
                 total_tools += 1
-                # 检查工具是否存在
-                # 特殊处理不同工具类型的路径
-                if category == 'PDF工具':
-                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
-                elif category == '图片工具':
-                    tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
-                elif category == '音频工具':
-                    tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
-                else:
-                    tool_path = os.path.join(os.path.dirname(__file__), file_name)
-                button = ttk.Button(frame, text=tool_name, width=30,
+                button = ttk.Button(tools_container, text=tool_name, width=50,
                                   command=lambda f=file_name, c=category: self.run_tool(f, c))
                 
-                # 如果工具不存在，禁用按钮
-                if not os.path.exists(tool_path):
+                # 检查工具是否存在
+                if not self.check_tool_exists(category, file_name):
                     button.state(['disabled'])
                     self.create_tooltip(button, f"工具文件不存在: {file_name}")
                 else:
                     available_tools += 1
                     self.create_tooltip(button, f"启动{tool_name}")
-                    
+                
                 button.pack(pady=2)
         
         # 更新状态栏
@@ -207,15 +311,7 @@ class ToolLauncher:
         """运行指定的工具"""
         try:
             # 获取工具的完整路径
-            if category == 'PDF工具':
-                tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', tool_name)
-            elif category == '图片工具':
-                tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', tool_name)
-            elif category == '音频工具':
-                tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', tool_name)
-            else:
-                tool_path = os.path.join(os.path.dirname(__file__), tool_name)
-            
+            tool_path = self.get_tool_path(category, tool_name)
             # 检查文件是否存在
             if not os.path.exists(tool_path):
                 raise FileNotFoundError(f"找不到工具文件：{tool_name}")
@@ -293,6 +389,12 @@ v1.0.3 (2025-5-27)
 - 1.修复V1.0.2版，调用工具名称错误的问题
 - 2.新增目录树生成器工具
 - 3.优化界面大小
+V1.0.4 (2025-5-28)
+- 1.新增加折叠/展开功能
+- 2.新增工具列表添加了垂直滚动条
+- 3.支持鼠标滚轮滚动
+- 4.调整目录树生成器工具位置
+- 5.优化工具列表布局
         """
         
         # 创建更新日志窗口
@@ -370,6 +472,33 @@ v1.0.3 (2025-5-27)
         # 添加关闭按钮
         close_button = ttk.Button(help_window, text="关闭", command=help_window.destroy)
         close_button.pack(pady=10)
+        
+    def toggle_category(self, category):
+        """切换分类的折叠状态"""
+        self.category_states[category] = not self.category_states[category]
+        
+        # 更新按钮文本
+        for widget in self.root.winfo_children():
+            if isinstance(widget, ttk.LabelFrame):
+                for child in widget.winfo_children():
+                    if isinstance(child, tk.Canvas):
+                        for grandchild in child.winfo_children():
+                            if isinstance(grandchild, ttk.Frame):  # scrollable_frame
+                                for greatgrandchild in grandchild.winfo_children():
+                                    if hasattr(greatgrandchild, 'category') and greatgrandchild.category == category:
+                                        # 更新按钮文本
+                                        for btn in greatgrandchild.winfo_children():
+                                            if hasattr(btn, 'category') and btn.category == category:
+                                                btn.config(text="▼" if self.category_states[category] else "▲")
+                                        
+                                        # 切换工具按钮的显示状态
+                                        for tool in greatgrandchild.winfo_children()[2:]:  # 跳过前两个控件(按钮和标签)
+                                            if self.category_states[category]:
+                                                tool.pack_forget()
+                                            else:
+                                                tool.pack(fill="x")
+                                        return
+        self.refresh_tools()  # 如果没找到，回退到完整刷新
         
     def run(self):
         """运行启动器"""
