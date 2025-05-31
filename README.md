@@ -2,34 +2,40 @@
 三垣工具启动器，用于统一启动本up开发的小工具!
 ## 工具列表
 ### PDF工具
-| 工具名称 | 功能描述 | 对应文件 |
+| 工具名称 | 功能描述 | 版本 |
 |---------|---------|---------|
-| PDF拆分 | 将PDF文件拆分为单页文件 | `PDF Chai Fen Alpha1.0.2.py` |
-| PDF合并 | 合并多个PDF文件 | `PDF He Bing Alpha1.0.1.py` |
-| PDF转Word | 转换为可编辑Word文档 | `PDF_to_Word_Alpha1.0.0.py` |
-| PDF加水印 | 添加文字 | `PDF_Watermark_Alpha1.0.0.py` |
+| PDF拆分 | 将PDF文件拆分为单页文件 | `Alpha1.0.2` |
+| PDF合并 | 合并多个PDF文件 | `Alpha1.0.1` |
+| PDF转Word | 转换为可编辑Word文档 | `Alpha1.0.1` |
+| PDF加水印 | 添加文字 | `Alpha1.0.0` |
 
 ### 图片工具
-| 工具名称 | 功能描述 | 对应文件 |
+| 工具名称 | 功能描述 | 版本 |
 |---------|---------|---------|
-| 九宫格分割 | 3×3网格分割 | `Tu Pian Fen Ge Jiu Gong Ge-Alpha1.0.0.py` |
-| 格式转换 | 支持7种格式互转 | `Tu Pian Ge Shi Zhuan Huan-Alpha1.0.0.py` |
-| ICO转换 | 生成16-256px图标 | `Tu Pian Zhuan ico-Alpha1.0.0.py` |
-| 图片合成 | 多图合成单图 | `Tu_Pian_He_Cheng_Alpha.py` |
+| 九宫格分割 | 3×3网格分割 | `Alpha1.0.0` |
+| 格式转换 | 支持7种格式互转 | `Alpha1.0.0` |
+| ICO转换 | 生成16-256px图标 | `Alpha1.0.0` |
+| 图片合成 | 多图合成单图 | `Alpha1.0.0` |
 
 ### 音频工具
 | 工具名称 | 功能描述 | 对应文件 |
 |---------|---------|---------|
-| 音频提取 | 从视频提取音频 | `Yin Pin Ti Qu-Alpha1.0.1.py` |
+| 音频提取 | 从视频提取音频 | `Alpha1.0.1` |
+
+### 文件工具
+| 工具名称 | 功能描述 | 对应文件 |
+|---------|---------|---------|
+| 目录树生成器 | 生成文件目录树 | `Alpha1-0-0` |
+
 ## 运行环境
 ### 基础开发环境
 - **Python 3.6+**
 ```
 依赖安装
-pip install PyPDF2 pillow
-pip install pydub
+pip install tqdm
 pip install pdf2docx pdfrw
 pip install opencv-python numpy
+pip install PyPDF2 pillow pydub pdf2docx pdfrw 
 ```
 
 
