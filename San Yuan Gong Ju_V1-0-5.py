@@ -41,8 +41,9 @@ class ToolLauncher:
             'PDF工具': {
                 'PDF拆分': 'PDF Chai Fen_Alpha1-0-2.py',
                 'PDF合并': 'PDF He Bing_Alpha1-0-2.py',
-                'PDF转Word': 'PDF_to_Word_Alpha1-0-0.py',
-                'PDF加水印': 'PDF_Watermark_Alpha1-0-0.py'
+                'PDF转Word': 'PDF_to_Word_Alpha1-0-1.py',
+                'PDF加水印': 'PDF_Watermark_Alpha1-0-0.py',
+                'PDF转图片': 'PDF Zhuan Tu Pian_Alpha1-0-0.py'
             },
             '图片工具': {
                 '九宫格分割': 'Tu Pian Fen Ge Jiu Gong Ge_Alpha1-0-0.py',
@@ -79,7 +80,7 @@ class ToolLauncher:
             for tool_name, file_name in tools.items():
                 # 特殊处理不同工具类型的路径
                 if category == 'PDF工具':
-                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF tool', file_name)
                 elif category == '图片工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
                 elif category == '音频工具':
@@ -149,7 +150,7 @@ class ToolLauncher:
                 # 检查工具是否存在
                 # 特殊处理不同工具类型的路径
                 if category == 'PDF工具':
-                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+                    tool_path = os.path.join(os.path.dirname(__file__), 'PDF tool', file_name)
                 elif category == '图片工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
                 elif category == '音频工具':
@@ -178,7 +179,7 @@ class ToolLauncher:
     def check_tool_exists(self, category, file_name):
         """检查工具文件是否存在"""
         if category == 'PDF工具':
-            tool_path = os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+            tool_path = os.path.join(os.path.dirname(__file__), 'PDF tool', file_name)
         elif category == '图片工具':
             tool_path = os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
         elif category == '音频工具':
@@ -192,7 +193,7 @@ class ToolLauncher:
     def get_tool_path(self, category, file_name):
         """获取工具文件的完整路径"""
         if category == 'PDF工具':
-            return os.path.join(os.path.dirname(__file__), 'PDF widgets', file_name)
+            return os.path.join(os.path.dirname(__file__), 'PDF tool', file_name)
         elif category == '图片工具':
             return os.path.join(os.path.dirname(__file__), 'Picture tool', file_name)
         elif category == '音频工具':
@@ -395,6 +396,8 @@ V1.0.4 (2025-5-28)
 - 3.支持鼠标滚轮滚动
 - 4.调整目录树生成器工具位置
 - 5.优化工具列表布局
+V1.0.5 (2025-5-31)
+- 1.新增PDF转图片工具
         """
         
         # 创建更新日志窗口

@@ -8,6 +8,7 @@
 | PDF合并 | 合并多个PDF文件 | `Alpha1.0.1` |
 | PDF转Word | 转换为可编辑Word文档 | `Alpha1.0.1` |
 | PDF加水印 | 添加文字 | `Alpha1.0.0` |
+| PDF转图片 | 转换为图片 | `Alpha1.0.0` |
 
 ### 图片工具
 | 工具名称 | 功能描述 | 版本 |
@@ -37,7 +38,8 @@ pip install pdf2docx pdfrw
 pip install opencv-python numpy
 pip install PyPDF2 pillow pydub pdf2docx pdfrw 
 ```
-
+安装FFmpeg（用于音频提取工具）:
+Windows: 下载并解压FFmpeg，将bin目录添加到PATH。
 
 **版本**: V1.0.0  
 **作者**: [宁幻雪]   
