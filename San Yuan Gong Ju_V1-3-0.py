@@ -7,7 +7,7 @@ import sys
 class ToolLauncher:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("工具启动器-V1.0.4")
+        self.root.title("工具启动器-V1.3.0")
         self.root.geometry("440x500")
         
         # 分类折叠状态
@@ -15,7 +15,8 @@ class ToolLauncher:
             'PDF工具': False,
             '图片工具': False,
             '音频工具': False,
-            '文件工具': False
+            '文件工具': False,
+            '其他工具': False
         }
         
         # 创建顶部按钮框架
@@ -43,7 +44,8 @@ class ToolLauncher:
                 'PDF合并': 'PDF He Bing_Alpha1-0-2.py',
                 'PDF转Word': 'PDF_to_Word_Alpha1-0-1.py',
                 'PDF加水印': 'PDF_Watermark_Alpha1-0-0.py',
-                'PDF转图片': 'PDF Zhuan Tu Pian_Alpha1-0-0.py'
+                'PDF转图片': 'PDF Zhuan Tu Pian_Alpha1-0-0.py',
+                '图片转PDF': 'Tu Pian Zhuan PDF_Alpha1-0-0.py'
             },
             '图片工具': {
                 '九宫格分割': 'Tu Pian Fen Ge Jiu Gong Ge_Alpha1-0-0.py',
@@ -56,6 +58,9 @@ class ToolLauncher:
             },
             '文件工具': {
                 '目录树生成器': 'Mu Lu Shu Sheng Cheng Qi_Alpha1-0-0.py',
+            },
+            '其他工具': {
+                '数字小写转大写': 'Shu Zi Xiao Xie Zhuan Da Xie_Alpha1-0-0.py'
             }
         }
         
@@ -87,6 +92,8 @@ class ToolLauncher:
                     tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
                 elif category == '文件工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+                elif category == '其他工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Other tool', file_name)
                 else:
                     tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 if not os.path.exists(tool_path):
@@ -157,6 +164,8 @@ class ToolLauncher:
                     tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
                 elif category == '文件工具':
                     tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+                elif category == '其他工具':
+                    tool_path = os.path.join(os.path.dirname(__file__), 'Other tool', file_name)
                 else:
                     tool_path = os.path.join(os.path.dirname(__file__), file_name)
                 button = ttk.Button(tools_container, text=tool_name, width=50,
@@ -168,9 +177,7 @@ class ToolLauncher:
                     self.create_tooltip(button, f"工具文件不存在: {file_name}")
                 else:
                     self.create_tooltip(button, f"启动{tool_name}")
-                    
                 button.pack(pady=2)
-        
         # 状态栏
         self.status_var = tk.StringVar(value="就绪")
         self.status_bar = ttk.Label(self.root, textvariable=self.status_var, relief="sunken")
@@ -186,6 +193,8 @@ class ToolLauncher:
             tool_path = os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
         elif category == '文件工具':
             tool_path = os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+        elif category == '其他工具':
+            tool_path = os.path.join(os.path.dirname(__file__), 'Other tool', file_name)
         else:
             tool_path = os.path.join(os.path.dirname(__file__), file_name)
         return os.path.exists(tool_path)
@@ -200,6 +209,8 @@ class ToolLauncher:
             return os.path.join(os.path.dirname(__file__), 'Audio tools', file_name)
         elif category == '文件工具':
             return os.path.join(os.path.dirname(__file__), 'File tool', file_name)
+        elif category == '其他工具':
+            return os.path.join(os.path.dirname(__file__), 'Other tool', file_name)
         else:
             return os.path.join(os.path.dirname(__file__), file_name)
 
@@ -334,7 +345,6 @@ class ToolLauncher:
     def show_about(self):
         """显示关于信息"""
         about_text = """
-三垣工具启动器 V1.0.0
 这是一个用于启动各种三垣开发的小工具模块的程序，提供了统一的启动界面。
 版本说明，本启动器为正式发布版本，但目前配套的工具模块均为Alphaha版本，可能存在未知bug。
 本项目在部署完整的开发环境后，可以离线本地运行。
@@ -386,18 +396,23 @@ V1.0.1 (2025-5-25)
 - 1.修复了音频工具刷新后无法使用的问题
 V1.0.2 (2025-5-26)
 - 1.添加更新日志
-v1.0.3 (2025-5-27)
+v1.1.0 (2025-5-27)
 - 1.修复V1.0.2版，调用工具名称错误的问题
 - 2.新增目录树生成器工具
 - 3.优化界面大小
-V1.0.4 (2025-5-28)
+V1.1.1 (2025-5-28)
 - 1.新增加折叠/展开功能
 - 2.新增工具列表添加了垂直滚动条
 - 3.支持鼠标滚轮滚动
 - 4.调整目录树生成器工具位置
 - 5.优化工具列表布局
-V1.0.5 (2025-5-31)
+V1.2.0 (2025-5-31)
 - 1.新增PDF转图片工具
+V1.3.0 (2025-6-1)
+- 1.新增图片转PDF工具
+- 2.新增数字小写转大写工具
+- 3.优化工具列表布局
+
         """
         
         # 创建更新日志窗口
@@ -441,16 +456,15 @@ V1.0.5 (2025-5-31)
    - PDF合并：将多个PDF文件合并为一个文件
    - PDF转Word：将PDF转换为Word文档并保留格式
    - PDF加水印：为PDF文件添加水印
-
+   - PDF转图片：将PDF转换为图片
+   - 图片转PDF：将图片转换为PDF文件
    图片工具：
    - 九宫格分割：将图片分割为九宫格
    - 格式转换：转换图片格式
    - ICO转换：将图片转换为ICO图标
    - 图片合成：将多张图片合成为一张
-
    音频工具：
    - 音频提取：从视频文件中提取音频
-
    文件工具：
    - 目录树生成器：生成目录树结构
         """
