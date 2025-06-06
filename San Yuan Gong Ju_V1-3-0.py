@@ -9,7 +9,7 @@ class ToolLauncher:
         self.root = tk.Tk()
         self.root.title("工具启动器-V1.3.0")
         self.root.geometry("440x500")
-        
+        self.root.minsize(440, 500)
         # 分类折叠状态
         self.category_states = {
             'PDF工具': False,
@@ -60,7 +60,9 @@ class ToolLauncher:
                 '目录树生成器': 'Mu Lu Shu Sheng Cheng Qi_Alpha1-0-0.py',
             },
             '其他工具': {
-                '数字小写转大写': 'Shu Zi Xiao Xie Zhuan Da Xie_Alpha1-0-0.py'
+                '数字小写转大写': 'Shu Zi Xiao Xie Zhuan Da Xie_Alpha1-0-0.py',
+                '长度单位换算': 'Chang Du Dan Wei Huan Suan_Alpha1-0-0.py',
+                '空文件夹清理': 'Kong Wen Jian Jia Qing Li_Alpha1-0-0.py',
             }
         }
         
@@ -408,10 +410,12 @@ V1.1.1 (2025-5-28)
 - 5.优化工具列表布局
 V1.2.0 (2025-5-31)
 - 1.新增PDF转图片工具
-V1.3.0 (2025-6-1)
+V1.3.0 (2025-6-8)
 - 1.新增图片转PDF工具
 - 2.新增数字小写转大写工具
 - 3.优化工具列表布局
+- 4.新增长度单位换算工具
+- 5.新增空文件夹清理工具
 
         """
         
