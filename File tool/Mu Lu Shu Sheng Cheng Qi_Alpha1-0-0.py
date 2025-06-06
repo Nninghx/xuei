@@ -55,6 +55,8 @@ class DirTreeGUI:
         clear_btn.pack(side=LEFT, padx=5)
         help_btn = Button(btn_frame, text="帮助", command=self.show_help, width=8, font=('Arial', 12))
         help_btn.pack(side=LEFT, padx=5)
+        changelog_btn = Button(btn_frame, text="更新日志", command=self.show_changelog, width=8, font=('Arial', 12))
+        changelog_btn.pack(side=LEFT, padx=5)
         # 输出框架
         output_frame = Frame(self.root)
         output_frame.pack(pady=10, padx=10, fill=BOTH, expand=True)
@@ -116,6 +118,18 @@ class DirTreeGUI:
 - 版权:Apache-2.0 License
         """
         messagebox.showinfo("帮助文档", help_text.strip())
+        
+    def show_changelog(self):
+        changelog_text = """
+        ==== 更新日志 ====
+版本: Alpha1.0.0
+1. 初始版本发布
+2. 实现基本目录树生成功能
+3. 添加图形用户界面
+4. 支持保存生成结果
+5. 添加帮助文档
+        """
+        messagebox.showinfo("更新日志", changelog_text.strip())
 if __name__ == '__main__':
     root = Tk()
     app = DirTreeGUI(root)

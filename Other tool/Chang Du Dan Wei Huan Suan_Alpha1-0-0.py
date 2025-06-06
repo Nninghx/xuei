@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 # 单位字典定义为全局常量
 # 单位分类字典
@@ -154,7 +154,6 @@ def convert_and_display():
 root = tk.Tk()
 root.title("长度单位换算")
 root.minsize(400, 400)  # 增大窗口尺寸以容纳历史记录
-root.resizable(False, False)
 
 # 使用Frame容器
 main_frame = ttk.Frame(root, padding="10")
@@ -207,7 +206,13 @@ combo_to.current(m_index)
 button_frame = ttk.Frame(main_frame)
 button_frame.pack(fill=tk.X, pady=10)
 convert_btn = ttk.Button(button_frame, text="转换", command=convert_and_display)
-convert_btn.pack(side=tk.TOP, ipadx=20, ipady=5)
+convert_btn.pack(side=tk.LEFT, padx=5, ipadx=20, ipady=5)
+
+help_btn = ttk.Button(button_frame, text="帮助", command=lambda: show_help())
+help_btn.pack(side=tk.LEFT, padx=5, ipadx=20, ipady=5)
+
+changelog_btn = ttk.Button(button_frame, text="更新日志", command=lambda: show_changelog())
+changelog_btn.pack(side=tk.LEFT, padx=5, ipadx=20, ipady=5)
 
 # 结果显示区域
 result_frame = ttk.LabelFrame(main_frame, text="转换结果", padding=(10, 5))
@@ -255,6 +260,40 @@ def update_history(value, from_unit, to_unit, result):
     history_text.insert(tk.END, entry + "\n")
     history_text.config(state=tk.DISABLED)
     history_text.see(tk.END)
+
+def show_help():
+    """显示帮助信息"""
+    help_text = """
+    长度单位换算工具使用说明
+    
+    1. 在数值框中输入要转换的数值
+    2. 从下拉列表中选择源单位和目标单位
+    3. 设置结果的小数位数
+    4. 点击"转换"按钮获取结果
+    
+    注意：
+    - 单位名称后括号内的是单位符号
+    - 分隔线表示单位分类
+    - 历史记录会自动保存
+
+    提示:
+- 作者:叁垣伍瑞肆凶廿捌宿宿
+- 联系方式:https://space.bilibili.com/556216088
+- 版权:Apache-2.0 License
+
+    """
+    messagebox.showinfo("帮助", help_text)
+
+def show_changelog():
+    """显示更新日志"""
+    changelog_text = """
+    版本 Alpha1.0.0 更新日志
+    - 基本长度单位换算功能
+    - 支持多种单位系统
+    - 历史记录功能
+
+    """
+    messagebox.showinfo("更新日志", changelog_text)
 
 def clear_history():
     """清除历史记录"""

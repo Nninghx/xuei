@@ -75,6 +75,11 @@ class PDFWatermarkApp:
 注意:
 - 水印会自动生成
 - 处理时间取决于PDF文件大小
+
+提示:
+- 作者:叁垣伍瑞肆凶廿捌宿宿
+- 联系方式:https://space.bilibili.com/556216088
+- 版权:Apache-2.0 License
 """
     
     def select_pdf(self):

@@ -32,7 +32,12 @@ class EmptyFolderCleaner:
 1. 点击"浏览"按钮选择要清理的目录
 2. 点击"清理空文件夹"按钮开始清理
 3. 程序会递归删除所选目录下的所有空文件夹
-4. 清理完成后会显示删除的空文件夹数量"""
+4. 清理完成后会显示删除的空文件夹数量
+提示:
+- 作者:叁垣伍瑞肆凶廿捌宿宿
+- 联系方式:https://space.bilibili.com/556216088
+- 版权:Apache-2.0 License
+"""
         messagebox.showinfo("帮助", help_text)
         
     def show_changelog(self):

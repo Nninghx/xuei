@@ -246,7 +246,12 @@ class RMBConverter:
 2. 系统会自动实时转换并显示结果
 3. 点击"清除"按钮清空输入和结果
 4. 点击"复制结果"按钮将转换结果复制到剪贴板
-5. 支持范围：整数部分最多21位，小数部分最多7位"""
+5. 支持范围：整数部分最多21位，小数部分最多7位
+提示:
+- 作者:叁垣伍瑞肆凶廿捌宿宿
+- 联系方式:https://space.bilibili.com/556216088
+- 版权:Apache-2.0 License
+"""
         messagebox.showinfo("帮助", help_text)
 
     def show_changelog(self):

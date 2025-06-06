@@ -517,14 +517,9 @@ class ImageCombinerApp:
 4. 保存结果: 满意后点击"保存结果"选择保存位置
 
 提示:
-- 支持JPG/PNG/BMP/GIF等常见图片格式
-- 大图片会自动压缩处理
-- 批量模式下可以一次处理多组图片
 - 作者:叁垣伍瑞肆凶廿捌宿宿
 - 联系方式:https://space.bilibili.com/556216088
-- 版权:This work by 宁幻雪 is licensed under CC BY-NC 4.0 
-
-- 备注:无聊开发的应用，如有问题请联系作者
+- 版权:Apache-2.0 License
 """
         messagebox.showinfo("使用帮助", help_text)
 
