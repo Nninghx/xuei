@@ -1,3 +1,7 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 from PyPDF2 import PdfReader, PdfWriter
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -6,10 +10,14 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import io
 
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
+
 class PDFWatermarkApp:
     def __init__(self, master):
         self.master = master
-        self.master.title("PDF加水印工具Alpha1.0.0")
+        self.master.title("PDF加水印工具Alpha1.0.1")
         
         # 主框架
         self.main_frame = ttk.Frame(self.master)
@@ -62,25 +70,10 @@ class PDFWatermarkApp:
         self.button_frame.pack(fill="x", padx=5, pady=10)
         
         ttk.Button(self.button_frame, text="帮助", command=self.show_help).pack(side="left", padx=5)
+        ttk.Button(self.button_frame, text="更新日志", command=self.show_changelog).pack(side="left", padx=5)
         ttk.Button(self.button_frame, text="添加水印", command=self.add_watermark).pack(side="right", padx=5)
         
-        # 帮助信息
-        self.help_text = """PDF加水印工具使用说明:
-1. 选择PDF文件
-2. 选择水印类型:
-   - 输入文字作为水印
-3. 设置水印位置和透明度
-4. 点击"添加水印"按钮
 
-注意:
-- 水印会自动生成
-- 处理时间取决于PDF文件大小
-
-提示:
-- 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License
-"""
     
     def select_pdf(self):
         file_path = filedialog.askopenfilename(
@@ -124,7 +117,23 @@ class PDFWatermarkApp:
     
     def show_help(self):
         """显示帮助信息"""
-        messagebox.showinfo("使用帮助", self.help_text)
+        help_system = get_help_system()
+        help_system.show_help("PDF加水印")
+        
+    def show_changelog(self):
+        """显示更新日志"""
+        changelog = """
+        PDF加水印工具 更新日志
+版本 Alpha1.0.0 (2025-6-1)
+- 1.初始版本发布
+- 2.支持添加文本水印
+- 3.支持调整水印位置、大小和透明度
+版本 Alpha1.0.1 (2025-6-7)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
+
+        """
+        messagebox.showinfo("更新日志", changelog)
     
     def add_watermark(self):
         """添加水印到PDF"""

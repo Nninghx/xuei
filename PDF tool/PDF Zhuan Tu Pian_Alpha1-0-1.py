@@ -1,15 +1,22 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import sys
 import threading
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
-import fitz  # PyMuPDF
+import fitz  
 from PIL import Image, ImageTk
 import tempfile
 import shutil
 from pathlib import Path
 
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
 
 class PDFToImageApp:
     """PDF转图片应用程序主类"""
@@ -17,7 +24,7 @@ class PDFToImageApp:
     def __init__(self, root):
         """初始化应用程序"""
         self.root = root
-        self.root.title("PDF转图片工具Alpha1.0.0")
+        self.root.title("PDF转图片工具Alpha1.0.1")
         self.root.geometry("900x700")
         self.root.minsize(800, 600)
         
@@ -431,32 +438,22 @@ class PDFToImageApp:
     
     def _show_help(self):
         """显示帮助信息"""
-        help_text = """PDF转图片工具使用说明
-        
-1. 选择PDF文件 - 点击"选择PDF文件"按钮或直接将PDF文件拖放到窗口
-2. 选择输出目录 - 点击"选择输出目录"按钮
-3. 设置转换选项:
-   - 输出格式: PNG/JPEG/TIFF/BMP
-   - DPI: 控制输出图片的分辨率
-   - JPEG质量: 仅对JPEG格式有效
-4. 选择要转换的页面 - 默认转换所有页面
-5. 点击"开始转换"按钮开始转换
-提示:
-- 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License
-"""
-        messagebox.showinfo("帮助", help_text)
+        help_system = get_help_system()
+        help_system.show_help("PDF转图片")
     
     def _show_changelog(self):
         """显示更新日志"""
         changelog = """版本更新日志
         
-v1.0.0 (2025-05-31)
-- 初始版本发布
-- 支持PDF转多种图片格式
-- 支持DPI和质量设置
-- 支持页面预览和选择
+版本 Alpha1.0.0 (2025-05-31)
+- 1.初始版本发布
+- 2.支持PDF转多种图片格式
+- 3.支持DPI和质量设置
+- 4.支持页面预览和选择
+版本 Alpha1.0.1 (2025-06-07)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
+
 """
         messagebox.showinfo("更新日志", changelog)
     

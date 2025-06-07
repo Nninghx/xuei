@@ -1,13 +1,22 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from PyPDF2 import PdfReader, PdfWriter
 from PIL import Image, ImageTk
+import sys
+
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
 
 class PDFMergerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("PDF页面合并工具")
+        self.root.title("PDF页面合并工具Alpha-1.0.3")
         self.root.geometry("300x500")
          # self.root.minsize(500, 700)
         
@@ -180,49 +189,20 @@ class PDFMergerApp:
 - 1.初始版本发布
 - 2.基本PDF合并功能
 - 3.页面预览与选择功能
-
 版本 Alpha1.0.1 (2025-05-20)
 - 1.进行了一些代码优化
-
 版本 Alpha1.0.2 (2025-05-26)
-- 1.- 添加更新日志
-
-
+- 1.- 添加更新日志和帮助
+版本 Alpha1.0.3 (2025-06-7)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
 
 """
         messagebox.showinfo("更新日志", changelog)
 
     def show_help(self):
-        help_text = """PDF页面合并工具 - 使用指南
-
-基本功能
-本工具用于合并多个PDF文件的选定页面，生成一个新的PDF文件。
-
-使用步骤
-1. 添加PDF文件
-   - 点击"添加文件"按钮选择要合并的PDF文件
-   - 可同时选择多个文件
-
-2. 选择需要合并的页面
-   - 在预览区域勾选需要合并的页面
-   - 使用"全选"按钮可快速选择当前文件所有页面
-   - 使用"清空选择"按钮可取消当前文件所有选择
-
-3. 合并PDF
-   - 点击"合并PDF"按钮
-   - 选择保存位置和文件名
-   - 点击保存完成合并
-
-注意事项
-- 合并顺序: 按照文件列表中的顺序和页面选择顺序
-- 文件限制: 仅支持标准的PDF文件
-- 页面限制: 无页面数量限制
-
-提示:
-作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License"""
-        messagebox.showinfo("帮助", help_text)
+        help_system = get_help_system()
+        help_system.show_help("PDF合并")
 
     def _on_mousewheel(self, event):
         """处理鼠标滚轮事件,滚动Canvas"""

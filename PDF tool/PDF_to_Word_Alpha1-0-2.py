@@ -1,3 +1,7 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from pdf2docx import Converter
@@ -5,39 +9,31 @@ import os
 import traceback
 from typing import Callable, Optional
 
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
+
 class ConfigManager:
     """配置管理类，存储应用程序的配置信息"""
     
     # 应用版本信息
-    VERSION = "Alpha 1.0.1"
+    VERSION = "Alpha 1.0.2"
     TITLE = f"PDF转Word工具 {VERSION}"
     
-    # 帮助文档
-    HELP_TEXT = """PDF转Word工具使用说明:
-        
-1. 点击"选择PDF"按钮选择要转换的PDF文件
-2. 点击"转换为Word"按钮开始转换
-3. 选择保存位置和文件名
-        
-注意: 
-- 转换时间取决于PDF文件大小
-- 转换过程中请勿关闭程序
-提示:
-- 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License
-"""
+    # 帮助文档由BangZhu模块统一管理
     
     # 更新日志
     CHANGELOG = """PDF转Word工具 更新日志
 
-版本 α1.0.0 (Alpha)
-- 初始版本发布
-- 实现基本PDF转Word功能
-- 添加帮助文档
-α1.0.1 （2025-5-29）
-- 添加更新日志
-- 修复:针对大型pdf文件转换完成后，无法正常打开的问题
+版本 Alpha1.0.0 (2025-5-28)
+- 1.初始版本发布
+- 2.实现基本PDF转Word功能
+版本 Alpha1.0.1 （2025-5-29）
+- 1.添加更新日志和帮助
+- 2.修复:针对大型pdf文件转换完成后，无法正常打开的问题
+版本 Alpha1.0.2 (2025-6-7)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
 """
 
 class ErrorHandler:
@@ -257,7 +253,8 @@ class PDFtoWordApp:
     
     def show_help(self):
         """显示帮助信息"""
-        messagebox.showinfo("帮助", ConfigManager.HELP_TEXT)
+        help_system = get_help_system()
+        help_system.show_help("PDF转Word")
     
     def show_changelog(self):
         """显示更新日志"""

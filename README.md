@@ -40,7 +40,8 @@ pip install PyPDF2 pillow pydub pdf2docx pdfrw
 安装FFmpeg（用于音频提取工具）:
 Windows: 下载并解压FFmpeg，将bin目录添加到PATH。
 
-**版本**: V1.0.0  
+## License Agreement  许可协议
+**版本**: V1.3.0  
 **作者**: [宁幻雪]   
 **联系方式**: [Bilibili空间](https://space.bilibili.com/556216088)  
 **开源协议**: Apache-2.0 License

@@ -1,11 +1,22 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from PyPDF2 import PdfReader, PdfWriter
+import sys
+import os.path
+
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
+
 class PDFSplitterApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("PDF拆分工具Alpha-1.0.2版")
+        self.root.title("PDF拆分工具Alpha-1.0.3")
         self.root.geometry("400x300")
         self.input_file = None
         self.output_dir = None
@@ -93,36 +104,18 @@ class PDFSplitterApp:
 - 3.优化错误提示与用户引导
 版本 Alpha1.0.2(2025-05-26)
 - 1.添加更新日志
+版本 Alpha1.0.3(2025-06-7)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
 """
         # 显示更新日志
         messagebox.showinfo("更新日志", changelog)
     def show_help(self):
-        help_text = """PDF拆分工具 - 使用指南
-功能说明:
-本工具提供两种PDF拆分模式：
-1. 按页数拆分:
-   - 将PDF文件按固定页数拆分为多个小文件
-   - 例如: 每2页拆分为一个文件
-2. 按范围拆分:
-   - 自定义选择要拆分的页码范围
-   - 支持多种格式:
-     - 单页: 5
-     - 连续范围: 1-3
-     - 混合格式: 1-3,5,7-9
-使用步骤:
-1. 选择要拆分的PDF文件
-2. 选择输出目录
-3. 选择拆分模式并设置参数
-4. 点击"拆分PDF"按钮
-注意事项:
-- 输出文件名格式: 原文件名_页码范围.pdf
-- 确保输出目录有写入权限
-提示:
-- 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License
-"""
-        messagebox.showinfo("帮助", help_text)
+        """
+        显示帮助信息，使用统一的帮助系统
+        """
+        help_system = get_help_system()
+        help_system.show_help("PDF拆分")
     def parse_page_ranges(self, range_str, total_pages):
         """解析页码范围字符串，返回页面索引列表"""
         ranges = []

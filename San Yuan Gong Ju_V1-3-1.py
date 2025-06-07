@@ -1,8 +1,11 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import subprocess
 import os
-import sys
 
 class ToolLauncher:
     def __init__(self):
@@ -40,12 +43,13 @@ class ToolLauncher:
         # 工具列表
         self.tools = {
             'PDF工具': {
-                'PDF拆分': 'PDF Chai Fen_Alpha1-0-2.py',
-                'PDF合并': 'PDF He Bing_Alpha1-0-2.py',
-                'PDF转Word': 'PDF_to_Word_Alpha1-0-1.py',
-                'PDF加水印': 'PDF_Watermark_Alpha1-0-0.py',
-                'PDF转图片': 'PDF Zhuan Tu Pian_Alpha1-0-0.py',
-                '图片转PDF': 'Tu Pian Zhuan PDF_Alpha1-0-0.py'
+                'PDF拆分': 'PDF Chai Fen_Alpha1-0-3.py',
+                
+                'PDF合并': 'PDF He Bing_Alpha1-0-3.py',
+                'PDF转Word': 'PDF_to_Word_Alpha1-0-2.py',
+                'PDF加水印': 'PDF Jia Shui Yin_Alpha1-0-1.py',
+                'PDF转图片': 'PDF Zhuan Tu Pian_Alpha1-0-1.py',
+                '图片转PDF': 'Tu Pian Zhuan PDF_Alpha1-0-1.py'
             },
             '图片工具': {
                 '九宫格分割': 'Tu Pian Fen Ge Jiu Gong Ge_Alpha1-0-0.py',
@@ -410,12 +414,15 @@ V1.1.1 (2025-5-28)
 - 5.优化工具列表布局
 V1.2.0 (2025-5-31)
 - 1.新增PDF转图片工具
-V1.3.0 (2025-6-8)
+V1.3.0 (2025-6-6)
 - 1.新增图片转PDF工具
 - 2.新增数字小写转大写工具
 - 3.优化工具列表布局
 - 4.新增长度单位换算工具
 - 5.新增空文件夹清理工具
+V1.3.1 (2025-6-7)
+-1.对PDF工具列表中，帮助的代码片段进行优化
+-2.对PDF列表模块添加禁止生成 .pyc 文件
 
         """
         

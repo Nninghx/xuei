@@ -1,3 +1,7 @@
+# 禁止生成 .pyc 文件
+import sys
+sys.dont_write_bytecode = True
+
 import os
 import sys
 import tkinter as tk
@@ -6,6 +10,9 @@ from PIL import Image
 import fitz  # PyMuPDF
 from pathlib import Path
 
+from os.path import dirname, join
+sys.path.insert(0, join(dirname(dirname(__file__)), "Tool module"))
+from BangZhu import get_help_system
 
 class ImageToPDFApp:
     """图片转PDF应用程序主类"""
@@ -13,7 +20,7 @@ class ImageToPDFApp:
     def __init__(self, root):
         """初始化应用程序"""
         self.root = root
-        self.root.title("图片转PDF工具Alpha1.0.0")
+        self.root.title("图片转PDF工具Alpha1.0.1")
         self.root.geometry("800x600")
         self.root.minsize(600, 400)
         
@@ -206,33 +213,23 @@ class ImageToPDFApp:
     
     def _show_help(self):
         """显示帮助信息"""
-        help_text = """图片转PDF工具使用说明
-        
-1. 添加图片 - 点击"添加图片"按钮选择一张或多张图片
-2. 选择输出PDF - 点击"选择输出PDF"按钮指定保存位置
-3. 管理图片列表:
-   - 右键点击图片可移除选中项
-   - 点击"清空列表"可移除所有图片
-4. 点击"开始转换"按钮开始转换
-5. 转换完成后会自动打开输出文件夹
-
-提示:
-- 支持的图片格式: PNG, JPEG, BMP, TIFF
-- 作者:叁垣伍瑞肆凶廿捌宿宿
-- 联系方式:https://space.bilibili.com/556216088
-- 版权:Apache-2.0 License
-"""
-        messagebox.showinfo("帮助", help_text)
+        help_system = get_help_system()
+        help_system.show_help("图片转PDF")
     
     def _show_changelog(self):
         """显示更新日志"""
         changelog = """版本更新日志
         
-v1.0.0 (2025-06-01)
+版本 Alpha1.0.0  (2025-06-01)
 - 初始版本发布
 - 支持多种图片格式转PDF
 - 支持图片列表管理
 - 支持右键移除图片
+版本 Alpha1.0.1 (2025-6-7)
+- 1.对帮助文档调用进行拆分，简化代码长度
+- 2.禁止生成 .pyc 文件
+
+
 """
         messagebox.showinfo("更新日志", changelog)
 

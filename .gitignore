@@ -1,2 +1,7 @@
 .vscode/
 xuei.7z
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
